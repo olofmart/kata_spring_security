@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+</head>
+<body>
+<header>
+    <a href="/logout">Logout</a>
+    <hr/>
+</header>
+<h3>INFO</h3>
+<div th:text="@{ID: {id} (id=${user.getId()})}"></div>
+<div th:text="@{Имя: {name} (name=${user.getName()})}"></div>
+<div th:text="@{Фамилия: {surname} (surname=${user.getSurname()})}"></div>
+<div th:text="@{Возраст: {age} (age=${user.getAge()})}"></div>
+<div th:text="@{Email: {email} (email=${user.getEmail()})}"></div>
+<div><h5>Роли:</h5>
+    <div th:each="role : ${user.getRoles()}">
+        <span th:if="${role.getValue()} == 'ROLE_ADMIN'">Админ<br></span>
+        <span th:if="${role.getValue()} == 'ROLE_USER'">Пользователь<br></span>
+    </div>
+</div>
+<h4><a th:href="@{/admin/users/{id}/edit (id=${user.getId()})}"}>Редактировать</a></h4>
+<form th:method="DELETE" th:action="@{/admin/users/{id} (id = ${user.getId()})}" th:object="${user}">
+    <input type="submit" value="Удалить"/>
+</form>
+<br>
+<hr/>
+<h4><a href="/admin/users">К общему списку</a></h4>
+</body>
+</html>
