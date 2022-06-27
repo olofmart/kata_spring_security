@@ -100,4 +100,11 @@ public class UserForm {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public boolean hasAdminRole() {
+        return roles.contains("ROLE_ADMIN");
+    }
+    public boolean hasUserRole() {
+        return roles.contains("ROLE_USER");
+    }
 }
