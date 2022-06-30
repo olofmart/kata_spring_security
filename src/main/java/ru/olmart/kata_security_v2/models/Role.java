@@ -23,8 +23,8 @@ public class Role implements GrantedAuthority {
     public Role() {
     }
 
-    public Role(String value){
-        this.value = value;
+    public Role(String type){
+        this.value = type;
     }
 
 
@@ -60,10 +60,5 @@ public class Role implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return value;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
     }
 }

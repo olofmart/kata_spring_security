@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <title>user page</title>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row p-2" style="background-color: rgb(52, 58, 64); color: rgb(255, 255, 255);">
+    <div class="col-md-10 my-auto">
+      <div style="font-size:large;">
+        <span><strong id="current_email"></strong></span>
+        <span>with roles:</span>
+        <span id="current_roles"></span>
+      </div>
+    </div>
+    <div class="col-md-2 my-auto">
+      <div style="text-align: right;"><a class="nav-link" href="/logout" style="color: rgb(165, 164, 164);">Logout</a></div>
+    </div>
+  </div>
+  <div class="row" style="height: 100vh;" >
+    <div class="col-md-2 m-0 pt-4" style="height: min-content;">
+      <ul class="nav nav-pills flex-column" id="navigation_panel">
+      </ul>
+    </div>
+    <div class="col-md-10 pt-4" style="background-color: rgb(248, 249, 250);">
+      <h1 id="page_header">page_header</h1>
+      <ul class="nav nav-tabs" id="second_navigation_panel">
+      </ul>
+      <div class="container-fluid border rounded p-0">
+        <div class="m-2 mb-0"><h3 id="table_title">table_title</h3></div>
+        <div class="m-0 p-4 border-top" style="background-color: white;">
+          <form  th:method="POST" th:action="@{/api/admin/users}" th:object="${form_user}" id="add_form">
+            <div class="form-group">
+              <label for="Name"><b>First name</b></label>
+              <input type="text" class="form-control" id="name" name = "name" placeholder="First name">
+            </div>
+            <div class="form-group">
+              <label for="Surname"><b>Last name</b></label>
+              <input type="text" name="surname" class="form-control" id="surname" placeholder="Last name">
+            </div>
+            <div class="form-group">
+              <label for="Age"><b>Age</b></label>
+              <input type="number" name="age" class="form-control" id="Age" placeholder="Last name">
+            </div>
+            <div class="form-group">
+              <label for="Email"><b>Email</b></label>
+              <input type="email" name="email" class="form-control" id="Email" placeholder="mail@mail.ru">
+            </div>
+            <div class="form-group">
+              <label for="pass"><b>Password</b></label>
+              <input type="password" name="password" class="form-control" id="pass" placeholder="Password">
+            </div>
+            <div class="form-group">
+              <label for="add_form_roles"><b>Roles</b></label>
+              <select name="roles" multiple class="form-control" id="add_form_roles">
+
+              </select>
+              <button type="button" class="btn btn-success mt-5"  onclick="clickAddNewUser()">Add new user</button>
+            </div>
+
+          </form>
+          <table class="table table-striped" id="main_table" >
+            <thead id="table_header">
+            </thead>
+            <tbody id="table_data">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--ModalEdit-->
+<div class="modal fade" id = "edit_modal_window" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel">Edit user</h5>
+      </div>
+      <div class="modal-body">
+        <div  class="container w-50">
+          <form id = "editUserForm" th:method="PATCH" action="/admin/users/" th:object="${formUser}">
+            <div class="form-group py-2" style="display: none">
+              <input type="number" class="form-control" id="edit_id_field" name="id">
+            </div>
+            <div class="form-group py-2">
+              <label for="edit_name_field"><b>First name</b></label>
+              <input type="text" class="form-control" id = "edit_name_field" placeholder="First name" name="name">
+            </div>
+            <div class="form-group py-2">
+              <label for="edit_surname_field"><b>Last name</b></label>
+              <input type="text" class="form-control" id="edit_surname_field" placeholder="Last name" name="surname">
+            </div>
+            <div class="form-group py-2">
+              <label for="edit_age_field"><b>Age</b></label>
+              <input type="number" class="form-control" id="edit_age_field" placeholder="age" name="age">
+            </div>
+            <div class="form-group py-2">
+              <label for="edit_email_field"><b>Email</b></label>
+              <input type="email" class="form-control" id="edit_email_field" placeholder="mail@mail.ru" name="email">
+            </div>
+            <div class="form-group py-2">
+              <label for="edit_pass_field"><b>Password</b></label>
+              <input type="password" class="form-control" id="edit_pass_field"  placeholder="password" name="password">
+            </div>
+            <div class="form-group py-2">
+              <label for="edit_roles_field"><b>Roles</b></label>
+              <select multiple class="form-control" id="edit_roles_field" name="roles">
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class = "modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+        <button type="button" class="btn btn-primary" form="editUserForm" data-dismiss="modal" onclick="clickEditUserButton()">Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--ModalDelete-->
+<div class="modal fade" id = "delete_modal_window" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete user</h5>
+      </div>
+      <div class="modal-body">
+        <div  class="container w-50">
+          <form id = "deleteUserForm" th:method="DELETE" action="/admin/users/0">
+            <div class="form-group py-2" style="display: none">
+              <input type="number" class="form-control" id="delete_id_field" name="id">
+            </div>
+            <div class="form-group py-2">
+              <label for="delete_name_field"><b>First name</b></label>
+              <input disabled type="text" class="form-control" id = "delete_name_field" placeholder="First name" name="name">
+            </div>
+            <div class="form-group py-2">
+              <label for="delete_surname_field"><b>Last name</b></label>
+              <input disabled type="text" class="form-control" id="delete_surname_field" placeholder="Last name" name="surname">
+            </div>
+            <div class="form-group py-2">
+              <label for="delete_age_field"><b>Age</b></label>
+              <input disabled type="number" class="form-control" id="delete_age_field" placeholder="age" name="age">
+            </div>
+            <div class="form-group py-2">
+              <label for="delete_email_field"><b>Email</b></label>
+              <input disabled type="email" class="form-control" id="delete_email_field" placeholder="mail@mail.ru" name="email">
+            </div>
+            <div class="form-group py-2">
+              <label for="delete_roles_field"><b>Roles</b></label>
+              <select disabled multiple class="form-control" id="delete_roles_field" name="roles">
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class = "modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" form="deleteUserForm" onclick="clickDeleteUserButton()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+</body>
+</html>
