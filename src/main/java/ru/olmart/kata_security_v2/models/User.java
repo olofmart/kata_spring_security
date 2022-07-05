@@ -38,7 +38,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(UserForm form, RoleService roleService){
+    public User(User form, RoleService roleService){
         id = form.getId();
         name = form.getName();
         surname = form.getSurname();

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.olmart.kata_security_v2.models.User;
-import ru.olmart.kata_security_v2.models.UserForm;
 import ru.olmart.kata_security_v2.services.RoleService;
 import ru.olmart.kata_security_v2.services.UserService;
 
@@ -37,13 +36,13 @@ public class AdminController {
     }
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") UserForm user, Model model) {
+    public String newUser(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("roles", roleService.getAllRoles());
         return "admin/new-user";
     }
 
     @PostMapping()
-    public String createUser(@ModelAttribute("user") UserForm user) {
+    public String createUser(@ModelAttribute("user") User user) {
         userService.addUser(new User(user, roleService));
         return "redirect:/admin/users";
     }
