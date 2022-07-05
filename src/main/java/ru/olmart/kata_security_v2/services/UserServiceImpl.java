@@ -6,7 +6,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.olmart.kata_security_v2.dao.UserDao;
+import ru.olmart.kata_security_v2.models.Role;
 import ru.olmart.kata_security_v2.models.User;
+
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -69,5 +72,27 @@ public class UserServiceImpl implements UserService{
             throw new UsernameNotFoundException("User " + username + " not found");
         }
         return user;
+    }
+
+    @Override
+    public User updateUserRoles(User userView, RoleService roleService){
+
+        User userDB = getUserById(userView.getId());
+        userDB.setName(userView.getName());
+        userDB.setSurname(userView.getSurname());
+        userDB.setAge(userView.getAge());
+        userDB.setEmail(userView.getEmail());
+        if(!userView.getPassword().equals("")) {
+            userDB.setPassword(userView.getPassword());
+            userDB.setPassword(new BCryptPasswordEncoder().encode(userView.getPassword()));
+        }
+        userDB.setRoles(new HashSet<>());
+        for(Role role : roleService.getAllRoles()){
+            if(userView.getRoles().contains(role)){
+                userDB.setOneRole(role);
+            }
+        }
+
+        return userDB;
     }
 }

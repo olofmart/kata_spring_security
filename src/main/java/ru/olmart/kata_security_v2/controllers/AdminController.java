@@ -50,14 +50,15 @@ public class AdminController {
 
     @GetMapping("/{id}/edit")
     public String updateUserPage(Model model, @PathVariable("id") int id) {
-        model.addAttribute("user", new UserForm(userService.getUserById(id)));
+        model.addAttribute("user", userService.getUserById(id));
+//        model.addAttribute("user", new UserForm(userService.getUserById(id)));
         return "admin/edit-user";
     }
 
     @PatchMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") UserForm user, @PathVariable("id") int id) {
-        User editingUser = userService.getUserById(id);
-        editingUser.update(user, roleService);
+    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") int id) {
+        //User editingUser = userService.getUserById(id);
+        User editingUser = userService.updateUserRoles(user, roleService);
         userService.updateUser(id, editingUser);
         return "redirect:/admin/users";
     }
