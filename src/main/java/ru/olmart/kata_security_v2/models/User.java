@@ -53,23 +53,6 @@ public class User implements UserDetails {
         }
     }
 
-//    public void update(User form, RoleService roleService){
-//        name = form.getName();
-//        surname = form.getSurname();
-//        age = form.getAge();
-//        email = form.getEmail();
-//        if(!form.getPassword().equals("")) {
-//            password = form.getPassword();
-//            password = new BCryptPasswordEncoder().encode(password);
-//        }
-//        roles = new HashSet<>();
-//        for(Role role : roleService.getAllRoles()){
-//            if(form.getRoles().contains(role)){
-//                roles.add(role);
-//            }
-//        }
-//    }
-
     public int getId() {
         return id;
     }

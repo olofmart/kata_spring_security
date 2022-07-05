@@ -49,7 +49,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void updateUser(int id, User user) {
+    public void updateUser(int id, User user, RoleService roleService) {
+        user = updateUserRoles(user, roleService);
         dao.update(id, user);
     }
 
@@ -74,8 +75,8 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
-    @Override
-    public User updateUserRoles(User userView, RoleService roleService){
+
+    private User updateUserRoles(User userView, RoleService roleService){
 
         User userDB = getUserById(userView.getId());
         userDB.setName(userView.getName());
