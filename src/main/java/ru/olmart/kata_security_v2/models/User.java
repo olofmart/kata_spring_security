@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -38,7 +39,17 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(UserForm form, RoleService roleService){
+    public User(User user){
+        id = user.getId();
+        name = user.getName();
+        surname = user.getSurname();
+        age = user.getAge();
+        email = user.getEmail();
+        password = "";
+        roles = user.getRoles();
+    }
+
+    public User(User form, RoleService roleService){
         id = form.getId();
         name = form.getName();
         surname = form.getSurname();

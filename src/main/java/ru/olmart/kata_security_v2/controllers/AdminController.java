@@ -36,9 +36,9 @@ public class AdminController {
     }
 
     @PostMapping("/users")
-    public UserForm addUser(@ModelAttribute("user") UserForm user){
+    public User addUser(@ModelAttribute("user") User user){
         userService.addUser(new User(user, roleService));
-        return new UserForm(userService.getUserByEmail(user.getEmail()));
+        return new User(userService.getUserByEmail(user.getEmail()));
     }
 
     @PatchMapping("/users")
