@@ -27,7 +27,10 @@ public class AdminController {
 
     @GetMapping("/users")
     public List<UserForm> getAllUsers() {
-        return userService.getAllUsers().stream().map(UserForm::new).collect(Collectors.toList());
+        return userService.getAllUsers().stream()
+                .map(UserForm::new)
+                .collect(Collectors.toList());
+//        return userService.getAllUsers();
     }
 
     @GetMapping("/users/{id}")

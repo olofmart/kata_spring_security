@@ -21,20 +21,20 @@ public class UserForm {
         roles = new HashSet<>();
     }
 
-    public UserForm(int id, String name, String surname, byte age, String email, String password, Set<String> roles) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-        this.email = email;
-        this.password = password;
-        this.roles = new HashSet<>();
-        for(Role role : service.getAllRoles()) {
-            if(roles.contains(role.getValue())) {
-                this.roles.add(role.getValue());
-            }
-        }
-    }
+//    public UserForm(int id, String name, String surname, byte age, String email, String password, Set<String> roles) {
+//        this.id = id;
+//        this.name = name;
+//        this.surname = surname;
+//        this.age = age;
+//        this.email = email;
+//        this.password = password;
+//        this.roles = new HashSet<>();
+//        for(Role role : service.getAllRoles()) {
+//            if(roles.contains(role.getValue())) {
+//                this.roles.add(role.getValue());
+//            }
+//        }
+//    }
 
     public UserForm(User user){
         id = user.getId();
